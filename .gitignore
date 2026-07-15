@@ -1,0 +1,22 @@
+# Зависимости
+node_modules/
+**/node_modules/
+
+# Сборка
+client/dist/
+dist/
+
+# Секреты — НЕ коммитить. На Vercel переменные задаются в настройках проекта.
+.env
+.env.*
+!.env.example
+**/.env
+!**/.env.example
+
+# Vercel
+.vercel
+
+# Логи и мусор ОС
+*.log
+.DS_Store
+Thumbs.db
