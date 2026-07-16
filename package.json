@@ -1,0 +1,22 @@
+{
+  "name": "taalim-account",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "build": "npm --prefix client install && npm --prefix client run build"
+  },
+  "//": "Корневой package.json нужен только Vercel: его зависимости попадают в серверлес-функцию /api. Локальная разработка идёт из server/ и client/ с их собственными package.json.",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.7.4",
+    "morgan": "^1.11.0",
+    "zod": "^4.4.3"
+  }
+}
