@@ -6,10 +6,10 @@ import connectDB from "../src/config/db.js";
 import app from "../src/app.js";
 
 export default async function handler(req, res) {
-  // Vercel направляет сюда всё из папки /api, но путь приходит БЕЗ префикса
-  // (например `/auth/login`, а не `/api/auth/login`). Express смонтирован на
-  // `/api` — возвращаем префикс, чтобы маршруты совпали. startsWith — на случай,
-  // если платформа однажды перестанет срезать префикс, чтобы не задвоить его.
+  const seen = req.url;
+
+  // Express смонтирован на `/api`. Если платформа передала путь без этого
+  // префикса — возвращаем его, иначе ни один маршрут не совпадёт.
   if (!req.url.startsWith("/api/") && req.url !== "/api") {
     req.url = "/api" + (req.url.startsWith("/") ? req.url : "/" + req.url);
   }
@@ -18,8 +18,11 @@ export default async function handler(req, res) {
 
   // Проверка живости — без базы. Отвечает, даже если БД не настроена, чтобы
   // отличить «функция не работает» от «не заданы переменные окружения».
+  // Поле `seen` показывает, какой путь реально пришёл от Vercel.
   if (path === "/api/health") {
-    return res.status(200).json({ ok: true, time: new Date().toISOString() });
+    return res
+      .status(200)
+      .json({ ok: true, seen, time: new Date().toISOString() });
   }
 
   if (!process.env.MONGO_URI) {
